@@ -1,0 +1,8 @@
+<div *ngIf="!resultado">Nenhum resultado ainda. Inicie uma batalha.</div>
+
+<div *ngIf="resultado" class="card">
+  <h3>Resultado</h3>
+  <p><strong>Gladiador 1:</strong> {{ resultado.gladiador1 }}</p>
+  <p><strong>Gladiador 2:</strong> {{ resultado.gladiador2 }}</p>
+  <p><strong>Vencedor:</strong> {{ resultado.vencedor }}</p>
+</div>
