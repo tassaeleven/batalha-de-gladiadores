@@ -1,3 +1,16 @@
 input{display:block;padding:8px;margin:6px 0;width:100%;box-sizing:border-box}
 label{font-weight:600}
 button{padding:8px 14px;border-radius:6px;border:none;background:#2b6cb0;color:white}
+
+.error {
+    color: red; 
+    margin-top: 8px
+}
+
+.batalha {
+    margin-top: 8px
+}
+
+.batalha-btn {
+    margin-top: 12px;
+}
