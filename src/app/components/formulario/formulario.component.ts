@@ -26,13 +26,13 @@ export class FormularioComponent {
     this.loading = true;
     this.error = null;
 
-    const { gladiador1, gladiador2 } = this.form.value;
+    const { gladiador1, gladiador2, vencedor} = this.form.value;
 
     // Chama endpoint de iniciar (opcional)
     this.batalhaService.getBatalha().subscribe({
       next: () => {
         // Em seguida, pede o resultado
-        this.batalhaService.postResultado(gladiador1, gladiador2).subscribe({
+        this.batalhaService.postResultado(gladiador1, gladiador2, vencedor).subscribe({
           next: (res: any) => {
             this.loading = false;
             this.resultado.emit(res);
