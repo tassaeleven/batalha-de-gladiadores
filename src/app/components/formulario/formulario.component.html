@@ -1,18 +1,55 @@
-<form [formGroup]="form" (ngSubmit)="iniciarBatalha()">
-  <div>
-    <label>Gladiador 1</label>
-    <input formControlName="gladiador1" />
+<form [formGroup]="form" (ngSubmit)="iniciarBatalha()" class="form-container">
+
+  <div class="card">
+    <h2>Gladiador 1</h2>
+
+    <div class="form-group">
+      <label>Nome do gladiador 1:</label>
+      <input formControlName="gladiador1" />
+    </div>
+
+    <div class="form-group">
+      <label>Arma:</label>
+      <select formControlName="arma1">
+        <option value="espada">Espada</option>
+        <option value="lança">Lança</option>
+        <option value="arco e flecha">Arco e Flecha</option>
+      </select>
+    </div>
+
+    <label class="checkbox">
+      <input type="checkbox" formControlName="armadura1" />
+      Possui armadura
+    </label>
   </div>
 
-  <div>
-    <label>Gladiador 2</label>
-    <input formControlName="gladiador2" />
+  <div class="card">
+    <h2>Gladiador 2</h2>
+
+    <div class="form-group">
+      <label>Nome do gladiador 2:</label>
+      <input formControlName="gladiador2" />
+    </div>
+
+    <div class="form-group">
+      <label>Arma:</label>
+      <select formControlName="arma2">
+        <option value="espada">Espada</option>
+        <option value="lança">Lança</option>
+        <option value="arco e flecha">Arco e Flecha</option>
+      </select>
+    </div>
+
+    <label class="checkbox">
+      <input type="checkbox" formControlName="armadura2" />
+      Possui armadura
+    </label>
   </div>
 
-  <div class="batalha-btn">
+  <div class="actions">
     <button type="submit" [disabled]="loading">Iniciar Batalha</button>
   </div>
 
   <div *ngIf="error" class="error">{{ error }}</div>
-  <div *ngIf="loading" class="batalha">Executando batalha...</div>
+  <div *ngIf="loading" class="loading">Executando batalha...</div>
 </form>

@@ -16,8 +16,12 @@ export class FormularioComponent {
 
   constructor(private fb: FormBuilder, private batalhaService: BatalhaService) {
     this.form = this.fb.group({
-      gladiador1: ['Maximus', [Validators.required]],
-      gladiador2: ['Spartacus', [Validators.required]],
+      gladiador1: ['', [Validators.required]],
+      gladiador2: ['', [Validators.required]],
+      arma1: ['', [Validators.required]],
+      arma2: ['', [Validators.required]],
+      armadura1: [false],
+      armadura2: [false],
     });
   }
 
@@ -26,20 +30,18 @@ export class FormularioComponent {
     this.loading = true;
     this.error = null;
 
-    const { gladiador1, gladiador2, vencedor} = this.form.value;
+    const { gladiador1, gladiador2, arma1, arma2, armadura1, armadura2 } = this.form.value;
 
-    // Chama endpoint de iniciar (opcional)
     this.batalhaService.getBatalha().subscribe({
       next: () => {
-        // Em seguida, pede o resultado
-        this.batalhaService.postResultado(gladiador1, gladiador2, vencedor).subscribe({
-          next: (res: any) => {
-            this.loading = false;
-            this.resultado.emit(res);
-          },
-          error: (err: any) => {
-            this.loading = false;
-            this.error = err?.message || 'Erro ao obter resultado';
+        this.batalhaService.postResultado(gladiador1, gladiador2, arma1, arma2, armadura1, armadura2 ).subscribe({
+        next: (res: any) => {
+          this.loading = false;
+          this.resultado.emit(res);
+        },
+        error: (err: any) => {
+          this.loading = false;
+          this.error = err?.message || 'Erro ao obter resultado';
           },
         });
       },
@@ -47,7 +49,7 @@ export class FormularioComponent {
         this.loading = false;
         this.error =
           'Erro ao iniciar a batalha: ' + (err?.message || 'não foi possível');
-      },
-    });
+        },
+      });
   }
 }

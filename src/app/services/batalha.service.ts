@@ -14,8 +14,8 @@ export class BatalhaService {
     return this.http.get(`${this.urlBase}/iniciar`, { responseType: 'text' });
   }
 
-  postResultado(gladiador1: string, gladiador2: string, vencedor: string): Observable<ResultadoBatalha> {
-    const payload = { gladiador1, gladiador2, vencedor };
+  postResultado(gladiador1: string, gladiador2: string, arma1: string, arma2: string, armadura1: boolean, armadura2: boolean): Observable<ResultadoBatalha> {
+    const payload = { gladiador1, gladiador2, arma1, arma2, armadura1, armadura2 };
     return this.http.post<ResultadoBatalha>(`${this.urlBase}/resultado`, payload);
   }
 }

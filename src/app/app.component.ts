@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ResultadoBatalha } from './models/resultado.model';
 
 @Component({
   selector: 'app-root',
@@ -6,9 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  resultado: any = null;
+  resultado!: ResultadoBatalha;
 
-  mostrarResultado(res: any) {
+  mostrarResultado(res: ResultadoBatalha) {
     this.resultado = res;
   }
 }
