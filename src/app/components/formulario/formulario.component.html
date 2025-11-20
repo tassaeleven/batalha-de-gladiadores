@@ -1,55 +1,114 @@
-<form [formGroup]="form" (ngSubmit)="iniciarBatalha()" class="form-container">
+<div class="form-container">
 
-  <div class="card">
-    <h2>Gladiador 1</h2>
-
-    <div class="form-group">
-      <label>Nome do gladiador 1:</label>
-      <input formControlName="gladiador1" />
-    </div>
-
-    <div class="form-group">
-      <label>Arma:</label>
-      <select formControlName="arma1">
+  <div class="form">
+    <div class="col">
+      <h3>Gladiador Nº 1</h3>
+      <input [value]="g1.nome" (input)="g1.nome = $any($event.target).value" placeholder=" Nome" />
+      <select [value]="g1.arma" (change)="g1.arma = $any($event.target).value">
+        <option value="" disabled hidden>Selecione uma arma</option>
         <option value="espada">Espada</option>
         <option value="lança">Lança</option>
         <option value="arco e flecha">Arco e Flecha</option>
       </select>
+      <label class="checkbox">
+        Quero protegê-lo com armadura!
+        <input type="checkbox" [checked]="g1.armadura" (change)="g1.armadura = $any($event.target).checked" />
+      </label>
     </div>
 
-    <label class="checkbox">
-      <input type="checkbox" formControlName="armadura1" />
-      Possui armadura
-    </label>
-  </div>
-
-  <div class="card">
-    <h2>Gladiador 2</h2>
-
-    <div class="form-group">
-      <label>Nome do gladiador 2:</label>
-      <input formControlName="gladiador2" />
-    </div>
-
-    <div class="form-group">
-      <label>Arma:</label>
-      <select formControlName="arma2">
+    <div class="col">
+      <h3>Gladiador Nº 2</h3>
+      <input [value]="g2.nome" (input)="g2.nome = $any($event.target).value" placeholder=" Nome" />
+      <select [value]="g2.arma" (change)="g2.arma = $any($event.target).value">
+        <option value="" disabled hidden>Selecione uma arma</option>
         <option value="espada">Espada</option>
         <option value="lança">Lança</option>
         <option value="arco e flecha">Arco e Flecha</option>
       </select>
+      <label class="checkbox">
+        Quero protegê-lo com armadura!
+        <input type="checkbox" [checked]="g2.armadura" (change)="g2.armadura = $any($event.target).checked" />
+      </label>
     </div>
 
-    <label class="checkbox">
-      <input type="checkbox" formControlName="armadura2" />
-      Possui armadura
-    </label>
+    <div class="actions">
+      <button (click)="iniciar()" [disabled]="loading">Iniciar batalha</button>
+    </div>
   </div>
 
-  <div class="actions">
-    <button type="submit" [disabled]="loading">Iniciar Batalha</button>
-  </div>
-
-  <div *ngIf="error" class="error">{{ error }}</div>
   <div *ngIf="loading" class="loading">Executando batalha...</div>
-</form>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div *ngIf="resultado" class="resultado">
+
+    <section *ngFor="let res of resultado.rodadas">
+      <h4>Rodada {{ res.numero }}</h4>
+      <pre>- {{ res.acaoGladiador1 }}</pre>
+      <pre>- {{ res.acaoGladiador2 }}</pre>
+
+      <div class="status-row">
+        <div>
+          <div>- Status de <strong>{{ res.estadoGladiador1.nome }}</strong></div>
+          <div><strong>Vidas:</strong> {{ res.estadoGladiador1.vidas }}</div>
+          <div><strong>Armadura:</strong> {{ res.estadoGladiador1.armadura ? 'Possui' : 'Não possui' }}</div>
+          <div><strong>Status:</strong> {{ res.estadoGladiador1.status }}</div>
+        </div>
+
+        <div>
+          <div>- Status de <strong>{{ res.estadoGladiador2.nome }}</strong></div>
+          <div><strong>Vidas:</strong> {{ res.estadoGladiador2.vidas }}</div>
+          <div><strong>Armadura:</strong> {{ res.estadoGladiador2.armadura ? 'Possui' : 'Não possui' }}</div>
+          <div><strong>Status:</strong> {{ res.estadoGladiador2.status }}</div>
+        </div>
+
+        <div>
+          <strong>- Status da Arena Suprema</strong>
+          <div>
+            <span>
+              Torcida do {{ res.estadoGladiador1.nome }}:
+            </span>
+            {{ res.estadoArena.torcedoresGladiador1 }}
+          </div>
+          <div>
+            <span>
+              Torcida do {{ res.estadoGladiador2.nome }}:
+            </span>
+            {{ res.estadoArena.torcedoresGladiador2 }}
+          </div>
+          <div>Total: {{ res.estadoArena.totalTorcedores }}</div>
+        </div>
+      </div>
+    </section>
+
+    <h3 class="resumoFinal">Resumo final</h3>
+    <div class="summary">
+      <div>
+        <strong>{{ resultado.gladiador1.nome }}</strong>
+        <div>{{ resultado.gladiador1.vidas }} vidas</div>
+      </div>
+      <div>
+        <strong>{{ resultado.gladiador2.nome }}</strong>
+        <div>{{ resultado.gladiador2.vidas }} vidas</div>
+      </div>
+      <div>
+        <strong>Arena final</strong>
+        <div>
+          <span>
+            Torcida do {{ resultado.gladiador1.nome }}:
+          </span>
+          {{ resultado.arenaFinal.torcedoresGladiador1 }}
+        </div>
+        <div>
+          <span>
+            Torcida do {{ resultado.gladiador2.nome }}:
+          </span>
+          {{ resultado.arenaFinal.torcedoresGladiador2 }}
+        </div>
+        <div>Total de torcedores na arena: {{ resultado.arenaFinal.totalTorcedores! }}</div>
+      </div>
+    </div>
+
+    <h2>GRANDE VENCEDOR: {{ resultado.vencedor }} <br>PARABÉNS!</h2>
+  </div>
+</div>
+

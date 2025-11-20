@@ -1,5 +1,6 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { ResultadoBatalha } from '../../models/resultado.model';
+import { ResultadoBatalhaResponse } from '../../models/batalha.model';
 
 @Component({
   selector: 'app-resultado',
@@ -7,7 +8,7 @@ import { ResultadoBatalha } from '../../models/resultado.model';
   styleUrls: ['./resultado.component.css'],
 })
 export class ResultadoComponent {
-  @Input() resultado: ResultadoBatalha | null = null;
+  @Input() resultado: ResultadoBatalhaResponse | null = null;
 
   exibirResultado = false;
 

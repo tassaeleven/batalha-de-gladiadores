@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BatalhaService } from '../../services/batalha.service';
+import { ResultadoBatalhaResponse, RodadaDTO } from '../../models/batalha.model';
 
 @Component({
   selector: 'app-formulario',
@@ -8,48 +9,41 @@ import { BatalhaService } from '../../services/batalha.service';
   styleUrls: ['./formulario.component.css'],
 })
 export class FormularioComponent {
-  form: FormGroup;
+  g1 = { nome: '', arma: '', armadura: false };
+  g2 = { nome: '', arma: '', armadura: false };
+
+  resultado: ResultadoBatalhaResponse | null = null;
   loading = false;
   error: string | null = null;
+  
+  constructor(private batalhaService: BatalhaService) {}
 
-  @Output() resultado = new EventEmitter<any>();
-
-  constructor(private fb: FormBuilder, private batalhaService: BatalhaService) {
-    this.form = this.fb.group({
-      gladiador1: ['', [Validators.required]],
-      gladiador2: ['', [Validators.required]],
-      arma1: ['', [Validators.required]],
-      arma2: ['', [Validators.required]],
-      armadura1: [false],
-      armadura2: [false],
-    });
-  }
-
-  iniciarBatalha() {
-    if (this.form.invalid) return;
+  iniciar() {
+    if (!this.g1.nome || !this.g2.nome) {
+      this.error = 'Preencha todos os nomes';
+      return;
+    }
+    if (!this.g1.arma || !this.g2.arma) {
+      this.error = 'Selecione todas as armas';
+      return;
+    }
     this.loading = true;
     this.error = null;
 
-    const { gladiador1, gladiador2, arma1, arma2, armadura1, armadura2 } = this.form.value;
+    const payload = {
+      gladiador1: { nome: this.g1.nome, arma: this.g1.arma, armadura: this.g1.armadura },
+      gladiador2: { nome: this.g2.nome, arma: this.g2.arma, armadura: this.g2.armadura }
+    };
 
-    this.batalhaService.getBatalha().subscribe({
-      next: () => {
-        this.batalhaService.postResultado(gladiador1, gladiador2, arma1, arma2, armadura1, armadura2 ).subscribe({
-        next: (res: any) => {
-          this.loading = false;
-          this.resultado.emit(res);
-        },
-        error: (err: any) => {
-          this.loading = false;
-          this.error = err?.message || 'Erro ao obter resultado';
-          },
-        });
-      },
-      error: (err: any) => {
+    this.batalhaService.batalhar(payload).subscribe({
+      next: (res) => {
+        this.resultado = res;
         this.loading = false;
-        this.error =
-          'Erro ao iniciar a batalha: ' + (err?.message || 'não foi possível');
-        },
-      });
+      },
+      error: (err) => {
+        this.error = 'Erro ao executar batalha';
+        this.loading = false;
+      }
+    });
   }
 }
