@@ -18,6 +18,7 @@ export class FormularioComponent {
   resultado: ResultadoBatalhaResponse | null = null;
   mostrarFormulario = true;
   mostrarImagemBatalha = false;
+  mostrarImagemVencedor = false;
   loading = false;
   error: string | null = null;
 
@@ -55,6 +56,7 @@ export class FormularioComponent {
           this.resultado = res;
           this.mostrarImagemBatalha = false;
           this.loading = false;
+          this.mostrarImagemVencedor = true;
         },
         error: (err) => {
           this.error = 'Erro ao executar batalha';

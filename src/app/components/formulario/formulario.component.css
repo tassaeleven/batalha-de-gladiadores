@@ -220,6 +220,15 @@ pre {
   height: auto;   /* mantém proporção correta */
 }
 
+.logoVencedor {
+  width: 500px;   /* ajuste o tamanho que quiser */
+  height: 400px;
+  justify-content: center;
+  text-align: center;  
+  display: block;
+  margin: auto; /* mantém proporção correta */
+}
+
 .summary {
   display: flex;
   flex-wrap: wrap;
