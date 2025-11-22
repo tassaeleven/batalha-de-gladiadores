@@ -1,6 +1,6 @@
 <div class="form-container">
 
-  <div class="form">
+  <div class="form" *ngIf="mostrarFormulario">
     <div class="col">
       <h3>Gladiador Nº 1</h3>
       <input [value]="g1.nome" (input)="g1.nome = $any($event.target).value" placeholder=" Nome" />
@@ -36,10 +36,16 @@
     </div>
   </div>
 
-  <div *ngIf="loading" class="loading">Executando batalha...</div>
+  <div 
+    *ngIf="loading" 
+    class="loading"
+    >
+    Executando batalha...
+  </div>
+  <img src="assets/images/spartanos.png" *ngIf="mostrarImagemBatalha" alt="Spartanos" class="logo"/>
   <div *ngIf="error" class="error">{{ error }}</div>
 
-  <div *ngIf="resultado" class="resultado">
+  <div *ngIf="resultado && !mostrarFormulario" class="resultado">
 
     <section *ngFor="let res of resultado.rodadas">
       <h4>Rodada {{ res.numero }}</h4>
@@ -80,7 +86,7 @@
       </div>
     </section>
 
-    <h3 class="resumoFinal">Resumo final</h3>
+    <h3 class="resumoFinal">RESUMO FINAL</h3>
     <div class="summary">
       <div>
         <strong>{{ resultado.gladiador1.nome }}</strong>
@@ -108,7 +114,7 @@
       </div>
     </div>
 
-    <h2>GRANDE VENCEDOR: {{ resultado.vencedor }} <br>PARABÉNS!</h2>
+    <h2>Grande vencedor: {{ resultado.vencedor.toUpperCase() }} <br>Parabéns!</h2>
   </div>
 </div>
 

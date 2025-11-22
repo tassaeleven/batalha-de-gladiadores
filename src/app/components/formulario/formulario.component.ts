@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BatalhaService } from '../../services/batalha.service';
-import { ResultadoBatalhaResponse, RodadaDTO } from '../../models/batalha.model';
+import {
+  ResultadoBatalhaResponse,
+  RodadaDTO,
+} from '../../models/batalha.model';
 
 @Component({
   selector: 'app-formulario',
@@ -13,9 +16,11 @@ export class FormularioComponent {
   g2 = { nome: '', arma: '', armadura: false };
 
   resultado: ResultadoBatalhaResponse | null = null;
+  mostrarFormulario = true;
+  mostrarImagemBatalha = false;
   loading = false;
   error: string | null = null;
-  
+
   constructor(private batalhaService: BatalhaService) {}
 
   iniciar() {
@@ -28,22 +33,35 @@ export class FormularioComponent {
       return;
     }
     this.loading = true;
+    this.mostrarImagemBatalha = true;
     this.error = null;
 
     const payload = {
-      gladiador1: { nome: this.g1.nome, arma: this.g1.arma, armadura: this.g1.armadura },
-      gladiador2: { nome: this.g2.nome, arma: this.g2.arma, armadura: this.g2.armadura }
+      gladiador1: {
+        nome: this.g1.nome,
+        arma: this.g1.arma,
+        armadura: this.g1.armadura,
+      },
+      gladiador2: {
+        nome: this.g2.nome,
+        arma: this.g2.arma,
+        armadura: this.g2.armadura,
+      },
     };
 
-    this.batalhaService.batalhar(payload).subscribe({
-      next: (res) => {
-        this.resultado = res;
-        this.loading = false;
-      },
-      error: (err) => {
-        this.error = 'Erro ao executar batalha';
-        this.loading = false;
-      }
-    });
+    setTimeout(() => {
+      this.batalhaService.batalhar(payload).subscribe({
+        next: (res) => {
+          this.resultado = res;
+          this.mostrarImagemBatalha = false;
+          this.loading = false;
+        },
+        error: (err) => {
+          this.error = 'Erro ao executar batalha';
+          this.loading = false;
+        },
+      });
+    }, 2000);
+    this.mostrarFormulario = false;
   }
 }

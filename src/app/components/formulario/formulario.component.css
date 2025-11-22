@@ -209,9 +209,17 @@ pre {
 /* ==== RESUMO FINAL ==== */
 .resumoFinal{
   text-align: center;
-  font-size: 18px;
+  font-size: 28px;
   margin-bottom: 20px;
+  color: #03435f;
+  font-family: 'Stencil Std, fantasy';
 }
+
+.logo {
+  width: 860px;   /* ajuste o tamanho que quiser */
+  height: auto;   /* mantém proporção correta */
+}
+
 .summary {
   display: flex;
   flex-wrap: wrap;
